@@ -1,0 +1,29 @@
+version: "2"
+services:
+  api-server:
+    build: api
+    ports:
+      - "5020:80"
+    volumes:
+      - ./api/:/var/www/html
+    links:
+      - db
+  smart-schedule:
+    image: smart-schedule
+    build:
+      context: ./smart-schedule/
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  db:
+    image: mysql:5.7
+    ports:
+      - 3319:3306
+    volumes:
+      - ./mysql5.7:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql123
+      - MYSQL_DATABASE=allen_proj
+      - MYSQL_USER=dbuser1
+      - MYSQL_PASSWORD=mysql123
